@@ -1,106 +1,73 @@
-﻿class Employee
-{
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public int Salary { get; set; }
-}
-
+﻿using LINQ_Queries;
 
 internal class Program
 {
     private static void Main(string[] args)
     {
-        List <int> list = new List<int>() { 1, 2, 3, 4, 5, 6, 7 };
-            
-        // Query Syntax
-        var qresult = from rec in list
-                     where rec % 2 == 0
-                     select rec * rec;
-
-        foreach (var item in qresult)
-        {
-            Console.WriteLine(item);
-        }
-
-        Console.WriteLine("----------------------------------------");
-
-        // Method Syntax
-        var mresult = list.Where(rec => rec % 2 == 0);
-        foreach (var item in mresult)
-        {
-            Console.WriteLine(item);
-        }
-
-        Console.WriteLine("----------------------------------------");
-
-        // Mixed Syntax
-        var mxresult = (from rec in list
-                        select rec).Where(rec => Math.Sqrt(rec) * Math.Sqrt(rec) == rec); // Returns Perfect squares
-        foreach (var item in mxresult)
-        {
-            Console.WriteLine(item);
-        }
-
-        Console.WriteLine("----------------------------------------");
-
-        List<Employee> emp = new List<Employee>()
+        List<Employee> employees = new List<Employee>()
         {
             new Employee()
             {
-                Id = 1,
+                EmpId = 1,
                 Name = "Sachin",
-                Salary = 106000,
+                Age = 35,
+                Gender = 'M',
+                Salary = 106000
             },
             new Employee()
             {
-                Id = 2,
+                EmpId = 2,
                 Name = "Amol",
+                Age = 32,
+                Gender = 'M',
                 Salary = 20000
             },
             new Employee()
             {
-                Id = 3,
+                EmpId = 3,
                 Name = "Tejas",
+                Age = 29,
+                Gender = 'M',
                 Salary = 0
             },
             new Employee()
             {
-                Id = 4,
+                EmpId = 4,
                 Name = "Akash",
+                Age = 27,
+                Gender = 'M',
                 Salary = 0
             },
             new Employee()
             {
-                Id = 5,
+                EmpId = 5,
                 Name = "Shubham",
-                Salary = 16000
+                Age = 25,
+                Gender = 'M',
+                Salary = 15000
             },
             new Employee()
             {
-                Id = 6,
-                Name = "Rushi",
+                EmpId = 6,
+                Name = "Rushikesh",
+                Age = 24,
+                Gender = 'M',
                 Salary = 37000
             }
         };
 
-        IEnumerable<Employee> filter = (from rec in emp
-                                       where rec.Salary != 0
-                                       select rec);
 
-        foreach (var item in filter)
+        var basicQuery = employees.Select((rec, index) => new { index, rec.EmpId, rec.Salary});
+
+        foreach (var item in basicQuery)
         {
-            Console.WriteLine(string.Format("Id : {0}, Name : {1}, Salary : {2}", item.Id, item.Name, item.Salary));
+            Console.WriteLine(item);
         }
+        //foreach (var item in basicQuery)
+        //{
+        //    Console.WriteLine(string.Format("Id : {0}\nName : {1}\nGender : {2}\nAge : {3}\nSalary : {4}", item.EmpId, item.Name, item.Gender, item.Age, item.Salary));
+        //    Console.WriteLine("--------------");
+        //}
 
-        Console.WriteLine("----------------------------------------");
-
-        IQueryable<Employee> filter1 = (from rec in emp
-                                        where rec.Salary == 0
-                                        select rec).AsQueryable();
-
-        foreach (var item in filter1)
-        {
-            Console.WriteLine(string.Format("Id : {0}, Name : {1}, Salary : {2}", item.Id, item.Name, item.Salary));
-        }
     }
 }
